@@ -1,0 +1,108 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'realm-android'
+
+android {
+    compileSdkVersion build_versions.compileSdk
+    defaultConfig {
+        applicationId build_versions.appId
+        minSdkVersion build_versions.minSdk
+        targetSdkVersion build_versions.targetSdk
+        versionCode build_versions.versionCode
+        versionName build_versions.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        renderscriptTargetApi build_versions.targetSdk
+        renderscriptSupportModeEnabled true
+        multiDexEnabled true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        main {
+            res.srcDirs = [
+                    'src/main/res-main',
+                    file('src/main/res-screen')
+                            .listFiles()
+                            .each { res.srcDirs += it.path }
+            ]
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    lintOptions {
+        lintConfig rootProject.file('lint.xml')
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':Core')
+    // Kotlin
+    implementation deps.kotlin.stdlib
+    implementation deps.multidex
+    // Support libraries
+    for (dependency in deps.support) {
+        implementation dependency.value
+    }
+    //Core
+    for (dependency in deps.core) {
+        implementation dependency.value
+    }
+    // Architecture components
+    for (dependency in deps.lifecycle) {
+        implementation dependency.value
+    }
+    for (dependency in deps.work) {
+        implementation dependency.value
+    }
+    for (dependency in deps.navigation) {
+        implementation dependency.value
+    }
+    // Dagger 2
+    for (dependency in deps.dagger) {
+        implementation dependency.value
+    }
+    //Compiler
+    for (dependency in deps.compiler) {
+        kapt dependency.value
+    }
+    //Retrofit
+    for (dependency in deps.retrofit) {
+        implementation dependency.value
+    }
+    implementation(deps.libCore.ok_httpLogging, {
+        exclude group: 'org.json', module: 'json'
+    })
+    implementation(deps.libCore.glide_recycler, {
+        transitive = false
+    })
+    //Image Loading
+    for (dependency in deps.glide) {
+        implementation dependency.value
+    }
+    //Utils
+    for (dependency in deps.utils) {
+        implementation dependency.value
+    }
+    //Library
+    for (dependency in deps.library) {
+        implementation dependency.value
+    }
+    // Test
+    debugImplementation deps.test.leakcanary
+    debugImplementation deps.test.leakcanaryfragment
+    debugImplementation deps.test.blockDebug
+    releaseImplementation deps.test.leakcanary_no_op
+    releaseImplementation deps.test.blockRelease
+}
