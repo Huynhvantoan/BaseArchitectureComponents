@@ -1,16 +1,15 @@
-package com.toan_itc.core.base
+package com.toan_itc.core.base.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.afollestad.aesthetic.AestheticActivity
-import com.toan_itc.core.BR
+import com.toan_itc.core.base.BaseViewModel
+import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-abstract class CoreBaseDataActivity<VM : ViewModel, DB : ViewDataBinding> : AestheticActivity() {
+abstract class CoreBaseDataActivity<VM : BaseViewModel, DB : ViewDataBinding> : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory

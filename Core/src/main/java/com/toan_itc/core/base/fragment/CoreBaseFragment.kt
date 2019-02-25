@@ -1,4 +1,4 @@
-package com.toan_itc.core.base
+package com.toan_itc.core.base.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-
 
 abstract class CoreBaseFragment : Fragment() {
     private var mContentView: View? = null
